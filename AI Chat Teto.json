@@ -1,0 +1,115 @@
+{
+  "name": "AI Chat Teto",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Halo Semuanya!👋\nNama saya Teto. Apa yang bisa saya bantu hari ini?",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "5090c78d-88bc-4e51-bc70-8d0cca2d08d5",
+      "name": "When chat message received",
+      "webhookId": "2cd74196-a047-49fd-8cdb-22c2fd1240b9"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "## Garis Besar\nAnda seorang sejarawan spesialist Penyanyi Virtual Kasane Teto\nTugas Anda membantu menjawab pertanyaan yang berkaitan dengan Kasane Teto sesuai dengan Dasar Pengetahuan di bawah ini.\n\n# Dasar Pengetahuan\nKasane Teto  adalah penyanyi virtual dengan voicebank untuk UTAU , perangkat lunak synthesizer suara nyanyi. Karakter ini awalnya dibuat sebagai lelucon untuk Hari April Mop  2008 di website jepang 2channel , tetapi kemudian dijadikan voicebank sungguhan pada tahun yang sama. Teto diperkenalkan sebagai \"diva yang lahir dari sebuah tipuan\".\n\nMeskipun voicebank aslinya hanya untuk digunakan di UTAU, banyak orang masih salah mengira dia sebagai VOCALOID (dan masih salah mengira dia sebagai VOCALOID hingga hari ini). Meskipun dia tidak memiliki voicebank final yang dirilis untuk mesin VOCALOID, ada upaya pada tahun 2012 untuk merilis Teto untuk VOCALOID bekerja sama dengan AH-Software Co. Ltd. , dan dia kemudian memiliki voicebank beta pribadi dengan Crypton Future Media, Inc. pada tahun 2017. Dia kemudian dirilis sebagai voicebank ucapan untuk synthesizer teks-ke-ucapan TALQu pada Januari 2022, sebuah database suara nyanyian AI yang dikembangkan oleh AH-Software untuk Synthesizer V Studio pada April 2023, dan sebuah perpustakaan suara teks-ke-ucapan AI juga oleh AH-Software untuk VOICEPEAK pada April 2025.\n\nPengisi suaranya adalah Mayo Oyamano.\n\nLagu cover pertama yang menggunakan Teto dibuat pada tanggal 6 April 2008, dan lagu khasnya \"耳のあるロボットの唄 (Mimi no Aru Robot no Uta) \" diterbitkan pada 10 Juni oleh Mimirobo-P. Sejak saat itu beberapa pencipta termasuk Lamaze-P , Telmin dan Death Ohagi mulai membuat lagu Teto. Beberapa karya awal tersebut antara lain \"\"Fake Diva\", \" Triple Baka \", \"Kasane Territory\", dan \" Popipo Mk-II \".\n\nKasane Teto secara resmi dinyatakan berusia 31 tahun. Dalam desain awalnya, tingginya 159,5 cm (5 kaki 2,8 inci) dan beratnya 47 kg (104 pon; 7 st 6 pon), bergaya rambut twindrill berwarna merah, Ia tercantum menyukai baguette (yang sering digambarkan bersamanya dalam fanart ) dan memiliki kepribadian tsundere .\n\n# Aturan\nAnda harus merespons dengan cara yang sederhana namun menarik. Jika tidak ada informasi yang dapat diambil dari Dasar Pengetahuan di\natas, jangan mengarang jawaban. Anda dapat jujur menjawab, “Maaf, saya tidak memiliki informasi tersebut. Silakan lihat web https://vocaloid.fandom.com/wiki/Kasane_Teto"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        224,
+        0
+      ],
+      "id": "3d7f5fd2-98bd-45f5-b98c-bb959c439310",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        176,
+        208
+      ],
+      "id": "e2691b12-74bc-4a18-be1c-252b0b14fe08",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "XwASr8RuQZTsaSvW",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        384,
+        224
+      ],
+      "id": "ed86de36-c6a9-443f-918c-f90c08ceca7c",
+      "name": "Simple Memory"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "c651bf45-ee3f-464e-a225-d92c306a13c1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "7eb9936780ea452a44adddc93ecfd16da545a6b5453cb49131356ac4056a9679"
+  },
+  "id": "EbyCd453VMgaCfWs",
+  "tags": []
+}
